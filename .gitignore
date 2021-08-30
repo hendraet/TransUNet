@@ -1,0 +1,7 @@
+.idea/
+__pycache__/
+datasets/*.zip
+logs/
+model/
+predictions/
+
