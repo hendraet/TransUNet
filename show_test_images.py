@@ -62,16 +62,17 @@ def main(args: argparse.Namespace):
         case_ids = get_case_ids_from_directory(args.result_dir)
     else:
         case_ids = args.case_ids
-    for case_id in tqdm(case_ids, desc="Processing cases..."):
-        case_result_dir = args.result_dir / f"case{case_id}_resulting_images"
-        case_result_dir.mkdir(parents=True, exist_ok=True)
-
+    for case_id in tqdm(case_ids, desc="Processing cases"):
         paths = [f"case{case_id}_img.nii.gz", f"case{case_id}_pred.nii.gz", f"case{case_id}_gt.nii.gz"]
         assert all([(args.result_dir / path).exists() for path in paths]), f"The required files for case id {case_id}" \
                                                                            f" do not exist. "
         data = [nibabel.load(args.result_dir / path).get_fdata() for path in paths]
+
+        case_result_dir = args.result_dir / f"case{case_id}_resulting_images"
+        case_result_dir.mkdir(parents=True, exist_ok=True)
+
         skipped_slices = []
-        for slice_id, (original_image, prediction, gt) in enumerate(zip(*data)):
+        for slice_id, (original_image, prediction, gt) in enumerate(tqdm(zip(*data), desc="Processing slices", leave=False)):
             if args.skip_empty and not (gt.any() or prediction.any()):
                 # there is nothing interesting on prediction and gt empty. Will be skipped
                 skipped_slices.append(slice_id)
