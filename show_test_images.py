@@ -67,6 +67,7 @@ def main(args: argparse.Namespace):
         assert all([(args.result_dir / path).exists() for path in paths]), f"The required files for case id {case_id}" \
                                                                            f" do not exist. "
         data = [nibabel.load(args.result_dir / path).get_fdata() for path in paths]
+        data = [numpy.transpose(arr, (2, 0, 1)) for arr in data]
 
         case_result_dir = args.result_dir / f"case{case_id}_resulting_images"
         case_result_dir.mkdir(parents=True, exist_ok=True)

@@ -1,6 +1,7 @@
-import os                                                                                                                                                                                                                                                                         
-if os.environ.get('REMOTE_PYCHARM_DEBUG_SESSION', False):                                                                                
-    import pydevd_pycharm                                           
+import os
+
+if os.environ.get('REMOTE_PYCHARM_DEBUG_SESSION', False):
+    import pydevd_pycharm
     pydevd_pycharm.settrace('localhost', port=int(os.environ.get('REMOTE_PYCHARM_DEBUG_PORT', '12022')),
                             stdoutToServer=True, stderrToServer=True)
 

@@ -10,7 +10,7 @@ import torch.backends.cudnn as cudnn
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from datasets.dataset_synapse import Synapse_dataset
+from datasets.dataset_synapse import SynapseDataset
 from networks.vit_seg_modeling import CONFIGS as CONFIGS_ViT_seg
 from networks.vit_seg_modeling import VisionTransformer as ViT_seg
 from utils import test_single_volume
@@ -76,7 +76,7 @@ def main(args):
 
     dataset_config = {
         'Synapse': {
-            'Dataset': Synapse_dataset,
+            'Dataset': SynapseDataset,
             'volume_path': '../data/processed_test_dataset/Synapse/test_vol_h5',
             'list_dir': './lists/lists_Synapse',
             'num_classes': 14,

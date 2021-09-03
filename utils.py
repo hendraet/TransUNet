@@ -1,12 +1,9 @@
-from pathlib import Path
-from typing import List
-
+import SimpleITK as sitk
 import numpy as np
 import torch
+import torch.nn as nn
 from medpy import metric
 from scipy.ndimage import zoom
-import torch.nn as nn
-import SimpleITK as sitk
 
 
 class DiceLoss(nn.Module):
@@ -62,7 +59,7 @@ def calculate_metric_percase(pred, gt):
         return 0, 0
 
 
-def test_single_volume(image, label, net, classes, patch_size=[256, 256], test_save_path=None, case=None, z_spacing=1):
+def test_single_volume(image, label, net, classes, patch_size=(256, 256), test_save_path=None, case=None, z_spacing=1):
     image, label = image.squeeze(0).cpu().detach().numpy(), label.squeeze(0).cpu().detach().numpy()
     if len(image.shape) == 3:
         prediction = np.zeros_like(label)

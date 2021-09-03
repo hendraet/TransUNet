@@ -7,7 +7,7 @@
    ```
    Using `--help` also displays the SynapseIds of the Abdomen dataset.
    (You probably want to download either `Reg-Training-Testing` or `Reg-Training-Training`.)
-2. Preprocess the data:                  
+2. Preprocess the data:
    1. Use the `preprocess_data.py` script in the `datasets` directory. 
       It will clip the image data within the range [-125, 275], normalize it to [0, 1], extract 2D slices from the 3D and save it in the appropriate file formats.
       ```

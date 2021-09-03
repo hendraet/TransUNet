@@ -1,23 +1,22 @@
-import argparse
 import logging
 import os
 import random
 import sys
-import time
-import numpy as np
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from tensorboardX import SummaryWriter
 from torch.nn.modules.loss import CrossEntropyLoss
 from torch.utils.data import DataLoader
-from tqdm import tqdm
-from utils import DiceLoss
 from torchvision import transforms
+from tqdm import tqdm
+
+from datasets.dataset_synapse import SynapseDataset, RandomGenerator
+from utils import DiceLoss
 
 
 def trainer_synapse(args, model, snapshot_path, save_interval=50):
-    from datasets.dataset_synapse import Synapse_dataset, RandomGenerator
     logging.basicConfig(filename=snapshot_path + "/log.txt", level=logging.INFO,
                         format='[%(asctime)s.%(msecs)03d] %(message)s', datefmt='%H:%M:%S')
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
@@ -26,8 +25,8 @@ def trainer_synapse(args, model, snapshot_path, save_interval=50):
     num_classes = args.num_classes
     batch_size = args.batch_size * args.n_gpu
     # max_iterations = args.max_iterations
-    db_train = Synapse_dataset(base_dir=args.root_path, list_dir=args.list_dir, split="train",
-                               transform=transforms.Compose(
+    db_train = SynapseDataset(base_dir=args.root_path, list_dir=args.list_dir, split="train",
+                              transform=transforms.Compose(
                                    [RandomGenerator(output_size=[args.img_size, args.img_size])]))
     print("The length of train set is: {}".format(len(db_train)))
 
